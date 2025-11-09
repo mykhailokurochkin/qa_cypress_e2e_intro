@@ -8,8 +8,12 @@ describe('Sign In page', () => {
   });
 
   it('should provide an ability to log in', () => {
-    const username = 'a' + faker.string.alphanumeric(10) + Date.now();
-    const email = faker.internet.email();
+    const username = (
+      'a' +
+      faker.string.alphanumeric(10) +
+      Date.now()
+    ).toLowerCase();
+    const email = faker.internet.email().toLowerCase();
     const password = 'Create1@';
 
     cy.request('POST', 'https://conduit.mate.academy/api/users', {
@@ -18,12 +22,11 @@ describe('Sign In page', () => {
         email,
         password
       }
-    }).then(() => {
-      cy.get(`input.form-control[placeholder='Email']`).type(email);
-      cy.get(`input.form-control[placeholder='Password']`).type(password);
-      cy.contains('button', 'Sign in').click();
-      cy.get('.navbar .nav-link[href^="/profile/"]')
-        .should('contain', username);
     });
+
+    cy.get('input.form-control[placeholder=\'Email\']').type(email);
+    cy.get('input.form-control[placeholder=\'Password\']').type(password);
+    cy.contains('button', 'Sign in').click();
+    cy.get('.navbar .nav-link[href^="/profile/"]').should('contain', username);
   });
 });
