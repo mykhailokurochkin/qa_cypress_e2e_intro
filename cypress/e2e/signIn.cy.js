@@ -3,7 +3,7 @@
 const { faker } = require('@faker-js/faker');
 
 describe('Sign In page', () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit('https://conduit.mate.academy/user/login');
   });
 
@@ -22,7 +22,8 @@ describe('Sign In page', () => {
       cy.get(`input.form-control[placeholder='Email']`).type(email);
       cy.get(`input.form-control[placeholder='Password']`).type(password);
       cy.contains('button', 'Sign in').click();
-      cy.get('a').contains(username);
+      cy.get('.navbar .nav-link[href^="/profile/"]')
+        .should('contain', username);
     });
   });
 });
